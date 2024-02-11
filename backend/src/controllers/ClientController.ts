@@ -1,11 +1,11 @@
 import { Request, Response } from 'express'
-import { validationResult } from 'express-validator'
+import { Result, ValidationError, validationResult } from 'express-validator'
 import ClientModel from '../models/ClientModel'
 
 class ClientController{
-    static async createUser(req: Request, res: Response){
+    static async registerClient(req: Request, res: Response){
         try{
-            const errors = validationResult(req)
+            const errors: Result<ValidationError> = validationResult(req)
             if(!errors.isEmpty()){
                 return res.status(400).json({message: errors})
             }
@@ -19,25 +19,19 @@ class ClientController{
             if (!/^\d+$/.test(cnpj)) {
                 return res.status(400).json({ message: "CNPJ deve conter apenas números" });
             }
-            let formattedCnpj: string
-            if(cnpj.includes('/') || cnpj.includes('-')){
-                formattedCnpj = cnpj.replace(/[-/]/g, '')
-            }else{
-                formattedCnpj = cnpj
-            }
             
-            const addressByCnpj: {bairro:string,municipio: string, logradouro: string, numero: number, complemento: string} | undefined = await fetchAddress(formattedCnpj)
+            const addressByCnpj: {bairro:string,municipio: string, logradouro: string, numero: number, complemento: string} | undefined = await fetchAddress(cnpj)
             if(addressByCnpj === undefined){
-                res.status(500).json({message: `Ocorreu um erro ao buscar endereço do cliente com o CNPJ ${cnpj}. Verifique e tente novamente!`})
+                res.status(400).json({message: `Ocorreu um erro ao buscar endereço do cliente com o CNPJ ${cnpj}. Verifique e tente novamente!`})
                 return
             }
-            const newClient = {
+            const newClient: {name: string, cnpj: string, address: {bairro:string,municipio: string, logradouro: string, numero: number, complemento: string}} = {
                 name,
                 cnpj,
                 address: addressByCnpj
 
             }
-            const clientModel = new ClientModel("./data/clients.json")
+            const clientModel: ClientModel = new ClientModel("./data/clients.json")
             clientModel.createClient(newClient)
             res.status(201).json({message: "Cliente cadastrado!"})
         }catch(error){
@@ -46,7 +40,7 @@ class ClientController{
     }
     static async getClients(req: Request, res: Response){
         try{
-            const clientModel = new ClientModel("./data/clients.json")
+            const clientModel: ClientModel = new ClientModel("./data/clients.json")
             const allClients = clientModel.getAllClients()
             res.status(200).send({clients: allClients})
             
@@ -73,11 +67,11 @@ async function fetchAddress(cnpj: string): Promise< {bairro:string,municipio: st
         
         const address: {bairro: string, municipio: string, logradouro: string,
         numero: number, complemento: string} = {
-            municipio: data.municipio,
-            bairro: data.bairro,
-            logradouro: data.logradouro,
-            numero: data.numero, 
-            complemento: data.complemento
+            municipio: data.municipio ? data.municipio : "Não fornecido",
+            bairro: data.bairro ? data.bairro : "Não fornecido",
+            logradouro: data.logradouro ? data.logradouro : "Não fornecido",
+            numero: data.numero ? data.numero : "Não fornecido", 
+            complemento: data.complemento ? data.complemento : "Não fornecido"
         }
         return address
     }catch(error){

@@ -6,7 +6,7 @@ import { body } from "express-validator"
 router.post('/register', [
     body('name').notEmpty().withMessage("O campo NOME não pode ser nulo!"),
     body('cnpj').notEmpty().withMessage("O campo CNPJ não pode ser nulo!")
-], ClientController.createUser)
+], ClientController.registerClient)
 router.get('/', ClientController.getClients)
 
 export default router

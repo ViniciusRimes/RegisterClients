@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import ClientController from '../controllers/ClientController';
+import ClientModel from '../models/ClientModel';
 
 describe('ClientController', () => {
   describe('Registrando cliente', () => {
@@ -15,7 +16,7 @@ describe('ClientController', () => {
         json: jest.fn()
       } as unknown as Response
 
-      ClientController.createUser(req, res);
+      ClientController.registerClient(req, res);
 
       expect(res.status).toHaveBeenCalledWith(400);
       expect(res.json).toHaveBeenCalledWith({ message: expect.any(String)});
@@ -33,7 +34,7 @@ describe('ClientController', () => {
         json: jest.fn()
       } as unknown as Response;
 
-      ClientController.createUser(req, res)
+      ClientController.registerClient(req, res)
 
       expect(res.status).toHaveBeenCalledWith(400)
       expect(res.json).toHaveBeenCalledWith({ message: expect.any(String)})
@@ -51,10 +52,38 @@ describe('ClientController', () => {
         json: jest.fn()
       } as unknown as Response
 
-      ClientController.createUser(req, res)
+      ClientController.registerClient(req, res)
 
       expect(res.status).toHaveBeenCalledWith(400)
       expect(res.json).toHaveBeenCalledWith({message: expect.any(String)})
+    })
+  })
+  describe('Obtendo clientes', ()=>{
+    it('Verifica se os clientes cadastrados são retornados corretamente', ()=>{
+      const mockClientes = [
+      {
+        name: 'Vinícius', 
+        cnpj: '12345678901234', 
+        address: {
+          bairro: 'Dona Mariana',
+          municipio: 'Sumidouro',
+          logradouro: 'Dona Mariana',
+          numero: 1,
+          complemento: 'Casa azul'
+        }
+      }]
+      jest.spyOn(ClientModel.prototype, 'getAllClients').mockReturnValue(mockClientes)
+      const req = {} as Request
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+        send: jest.fn()
+      } as unknown as Response
+
+      ClientController.getClients(req, res)
+      expect(ClientModel.prototype.getAllClients).toHaveBeenCalled()
+      expect(res.send).toHaveBeenCalledWith({clients: mockClientes})
+      expect(res.status).toHaveBeenCalledWith(200)
     })
   })
 })
