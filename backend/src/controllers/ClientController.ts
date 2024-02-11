@@ -1,8 +1,6 @@
 import { Request, Response } from 'express'
 import { validationResult } from 'express-validator'
 import ClientModel from '../models/ClientModel'
-import fs from 'fs'
-
 
 class ClientController{
     static async createUser(req: Request, res: Response){
@@ -12,17 +10,25 @@ class ClientController{
                 return res.status(400).json({message: errors})
             }
             const {name, cnpj} = req.body
-            
+            if (!/^[a-zA-Z]+$/.test(name)) {
+                return res.status(400).json({ message: "O nome deve conter apenas letras" });
+            }
+            if(cnpj.length !== 14){
+                return res.status(400).json({message: "CNPJ deve conter exatamente 14 caracteres"})
+            }
+            if (!/^\d+$/.test(cnpj)) {
+                return res.status(400).json({ message: "CNPJ deve conter apenas números" });
+            }
             let formattedCnpj: string
             if(cnpj.includes('/') || cnpj.includes('-')){
-                formattedCnpj = cnpj.replace('-', '') && cnpj.replace('/', '')
+                formattedCnpj = cnpj.replace(/[-/]/g, '')
             }else{
                 formattedCnpj = cnpj
             }
             
             const addressByCnpj: {bairro:string,municipio: string, logradouro: string, numero: number, complemento: string} | undefined = await fetchAddress(formattedCnpj)
             if(addressByCnpj === undefined){
-                res.status(400).json({message: `Ocorreu um erro ao buscar endereço do cliente com o CNPJ ${cnpj}. Verifique e tente novamente!`})
+                res.status(500).json({message: `Ocorreu um erro ao buscar endereço do cliente com o CNPJ ${cnpj}. Verifique e tente novamente!`})
                 return
             }
             const newClient = {
@@ -57,8 +63,14 @@ async function fetchAddress(cnpj: string): Promise< {bairro:string,municipio: st
                 'Content-Type': 'application/json'
             }
         })
+        if(!response.ok){
+            console.error(`Erro ao buscar o endereço do cliente. Status: ${response.status}`)
+            if(response.status === 400){
+                return undefined
+            }
+        }
         const data = await response.json()
-        console.log(data)
+        
         const address: {bairro: string, municipio: string, logradouro: string,
         numero: number, complemento: string} = {
             municipio: data.municipio,

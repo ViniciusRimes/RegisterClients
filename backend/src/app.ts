@@ -1,5 +1,8 @@
 import express from 'express'
 import ClientRoutes from './routes/ClientRoutes'
+require('dotenv').config({
+    path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env'
+})
 
 class App{
     public express: express.Application
