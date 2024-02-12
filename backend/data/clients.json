@@ -3,6 +3,8 @@
     "name": "Vinicius",
     "cnpj": "33014556044800",
     "address": {
+      "uf": "SP",
+      "cep": "04005003",
       "municipio": "SAO PAULO",
       "bairro": "PARAISO",
       "logradouro": "ABILIO SOARES",
@@ -11,9 +13,11 @@
     }
   },
   {
-    "name": "Vinicius",
+    "name": "Jose",
     "cnpj": "33014556044800",
     "address": {
+      "uf": "SP",
+      "cep": "04005003",
       "municipio": "SAO PAULO",
       "bairro": "PARAISO",
       "logradouro": "ABILIO SOARES",
@@ -22,9 +26,11 @@
     }
   },
   {
-    "name": "Vinicius",
+    "name": "PedroJosé",
     "cnpj": "33014556044800",
     "address": {
+      "uf": "SP",
+      "cep": "04005003",
       "municipio": "SAO PAULO",
       "bairro": "PARAISO",
       "logradouro": "ABILIO SOARES",
@@ -33,29 +39,7 @@
     }
   },
   {
-    "name": "Vinicius",
-    "cnpj": "33014556044800",
-    "address": {
-      "municipio": "SAO PAULO",
-      "bairro": "PARAISO",
-      "logradouro": "ABILIO SOARES",
-      "numero": "870",
-      "complemento": "Não fornecido"
-    }
-  },
-  {
-    "name": "Vinicius",
-    "cnpj": "33014556044800",
-    "address": {
-      "municipio": "SAO PAULO",
-      "bairro": "PARAISO",
-      "logradouro": "ABILIO SOARES",
-      "numero": "870",
-      "complemento": "Não fornecido"
-    }
-  },
-  {
-    "name": "Vinicius",
+    "name": "Pedro José",
     "cnpj": "33014556044800",
     "address": {
       "uf": "SP",

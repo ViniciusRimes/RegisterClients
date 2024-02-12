@@ -23,7 +23,7 @@ class App{
         }))
     }
     private routes() : void{
-        this.express.use('/client', ClientRoutes)
+        this.express.use('/clients', ClientRoutes)
     }
 }
 

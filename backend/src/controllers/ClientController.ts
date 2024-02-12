@@ -10,8 +10,8 @@ class ClientController{
                 return res.status(400).json({message: errors})
             }
             const {name, cnpj} = req.body
-            if (!/^[a-zA-Z]+$/.test(name)) {
-                return res.status(400).json({ message: "O nome deve conter apenas letras" });
+            if (!/^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$/.test(name)) {
+                return res.status(400).json({ message: "O nome deve conter apenas letras e espaços" });
             }
             if(cnpj.length !== 14){
                 return res.status(400).json({message: "CNPJ deve conter exatamente 14 caracteres"})
