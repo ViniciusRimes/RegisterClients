@@ -20,12 +20,12 @@ class ClientController{
                 return res.status(400).json({ message: "CNPJ deve conter apenas números" });
             }
             
-            const addressByCnpj: {bairro:string,municipio: string, logradouro: string, numero: number, complemento: string} | undefined = await fetchAddress(cnpj)
+            const addressByCnpj: {uf: string, cep: string, bairro:string,municipio: string, logradouro: string, numero: number, complemento: string} | undefined = await fetchAddress(cnpj)
             if(addressByCnpj === undefined){
                 res.status(400).json({message: `Ocorreu um erro ao buscar endereço do cliente com o CNPJ ${cnpj}. Verifique e tente novamente!`})
                 return
             }
-            const newClient: {name: string, cnpj: string, address: {bairro:string,municipio: string, logradouro: string, numero: number, complemento: string}} = {
+            const newClient: {name: string, cnpj: string, address: {uf: string, cep: string, bairro:string,municipio: string, logradouro: string, numero: number, complemento: string}} = {
                 name,
                 cnpj,
                 address: addressByCnpj
@@ -33,7 +33,7 @@ class ClientController{
             }
             const clientModel: ClientModel = new ClientModel("./data/clients.json")
             clientModel.createClient(newClient)
-            res.status(201).json({message: "Cliente cadastrado!"})
+            res.status(201).json({message: "Cliente cadastrado!", client: newClient})
         }catch(error){
             res.status(500).json({message: "Ocorreu um erro ao processar a solicitação. Erro: " + error})
         }
@@ -49,7 +49,7 @@ class ClientController{
         }
     }
 }
-async function fetchAddress(cnpj: string): Promise< {bairro:string,municipio: string, logradouro: string, numero: number, complemento: string} | undefined >{
+async function fetchAddress(cnpj: string): Promise< {uf: string, cep: string, bairro:string,municipio: string, logradouro: string, numero: number, complemento: string} | undefined >{
     try{
         const response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`, {
             method: 'GET',
@@ -65,8 +65,10 @@ async function fetchAddress(cnpj: string): Promise< {bairro:string,municipio: st
         }
         const data = await response.json()
         
-        const address: {bairro: string, municipio: string, logradouro: string,
+        const address: {uf: string, cep: string, bairro: string, municipio: string, logradouro: string,
         numero: number, complemento: string} = {
+            uf: data.uf,
+            cep: data.cep,
             municipio: data.municipio ? data.municipio : "Não fornecido",
             bairro: data.bairro ? data.bairro : "Não fornecido",
             logradouro: data.logradouro ? data.logradouro : "Não fornecido",

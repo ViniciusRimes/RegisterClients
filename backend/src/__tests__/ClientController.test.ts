@@ -65,6 +65,8 @@ describe('ClientController', () => {
         name: 'Vinícius', 
         cnpj: '12345678901234', 
         address: {
+          uf: 'RJ',
+          cep: '28637000',
           bairro: 'Dona Mariana',
           municipio: 'Sumidouro',
           logradouro: 'Dona Mariana',

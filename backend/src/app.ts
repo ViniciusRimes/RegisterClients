@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import ClientRoutes from './routes/ClientRoutes'
 require('dotenv').config({
     path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env'
@@ -13,6 +14,13 @@ class App{
     }
     private middlewares(): void{
         this.express.use(express.json())
+        this.express.use(cors({
+            origin: 'http://localhost:3000', 
+            methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+            credentials: true,
+            optionsSuccessStatus: 204,
+            allowedHeaders: 'Content-Type,Authorization'
+        }))
     }
     private routes() : void{
         this.express.use('/client', ClientRoutes)
