@@ -9,7 +9,9 @@ class ClientController{
             if(!errors.isEmpty()){
                 return res.status(400).json({message: errors})
             }
-            const {name, cnpj} = req.body
+            const {name, cnpj, address} = req.body
+            const {uf, cep, municipio, bairro, numero, complemento} = address
+            
             if (!/^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$/.test(name)) {
                 return res.status(400).json({ message: "O nome deve conter apenas letras e espaços" });
             }
@@ -20,15 +22,17 @@ class ClientController{
                 return res.status(400).json({ message: "CNPJ deve conter apenas números" });
             }
             
-            const addressByCnpj: {uf: string, cep: string, bairro:string,municipio: string, logradouro: string, numero: number, complemento: string} | undefined = await fetchAddress(cnpj)
-            if(addressByCnpj === undefined){
-                res.status(400).json({message: `Ocorreu um erro ao buscar endereço do cliente com o CNPJ ${cnpj}. Verifique e tente novamente!`})
-                return
-            }
-            const newClient: {name: string, cnpj: string, address: {uf: string, cep: string, bairro:string,municipio: string, logradouro: string, numero: number, complemento: string}} = {
+            const newClient: {name: string, cnpj: string, address: {uf: string, cep: string, bairro:string,municipio: string, numero: string, complemento: string}} = {
                 name,
                 cnpj,
-                address: addressByCnpj
+                address: {
+                    uf,
+                    cep,
+                    municipio,
+                    bairro,
+                    numero,
+                    complemento
+                }
 
             }
             const clientModel: ClientModel = new ClientModel("./data/clients.json")
@@ -48,8 +52,22 @@ class ClientController{
             res.status(500).json({message: "Ocorreu um erro ao processar a solicitação. Erro: " + error})
         }
     }
+    static async getAddressByCnpj(req: Request, res: Response){
+        try{
+            const {cnpj} = req.params
+            const addressByCnpj: {uf: string, cep: string, bairro:string,municipio: string, numero: string, complemento: string} | undefined = await fetchAddress(cnpj)
+            if(addressByCnpj === undefined){
+                res.status(400).json({message: `Endereço não encontrado para o CNPJ informado. Verifique o CNPJ ou cadastre manualmente!`})
+                return
+            }
+            res.status(200).send({address: addressByCnpj})
+        }   
+        catch(error){
+            res.status(500).json({message: "Ocorreu um erro ao processar a solicitação. Erro: " + error})
+        }
+    }
 }
-async function fetchAddress(cnpj: string): Promise< {uf: string, cep: string, bairro:string,municipio: string, logradouro: string, numero: number, complemento: string} | undefined >{
+async function fetchAddress(cnpj: string): Promise< {uf: string, cep: string, bairro:string,municipio: string, numero: string, complemento: string} | undefined >{
     try{
         const response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`, {
             method: 'GET',
@@ -57,21 +75,18 @@ async function fetchAddress(cnpj: string): Promise< {uf: string, cep: string, ba
                 'Content-Type': 'application/json'
             }
         })
-        if(!response.ok){
-            console.error(`Erro ao buscar o endereço do cliente. Status: ${response.status}`)
+        if(!response.ok){ 
             if(response.status === 400){
                 return undefined
             }
         }
         const data = await response.json()
         
-        const address: {uf: string, cep: string, bairro: string, municipio: string, logradouro: string,
-        numero: number, complemento: string} = {
+        const address: {uf: string, cep: string, bairro: string, municipio: string, numero: string, complemento: string} = {
             uf: data.uf,
             cep: data.cep,
             municipio: data.municipio ? data.municipio : "Não fornecido",
             bairro: data.bairro ? data.bairro : "Não fornecido",
-            logradouro: data.logradouro ? data.logradouro : "Não fornecido",
             numero: data.numero ? data.numero : "Não fornecido", 
             complemento: data.complemento ? data.complemento : "Não fornecido"
         }

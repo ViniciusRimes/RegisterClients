@@ -3,7 +3,7 @@ import fs from 'fs'
 interface Client{
     name: string,
     cnpj: string,
-    address: {uf: string, cep: string, bairro:string,municipio: string, logradouro: string, numero: number, complemento: string}
+    address: {uf: string, cep: string, bairro:string,municipio: string, numero: string, complemento: string}
 }
 class ClientModel{
     private clients: Client[]
