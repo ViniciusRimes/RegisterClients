@@ -58,9 +58,11 @@ const RegisterClient = () => {
                         setCnpjIsValid(true)
                     }
                     const address = response.data.address
+                    const cep = address.cep.replace(/\D/g, '')
+                    const cepFormatted =  cep.replace(/^(\d{5})(\d)/, '$1-$2')
                     setAddress({
                         uf: address.uf ? address.uf : "",
-                        cep: address.cep ? address.cep : "",
+                        cep: address.cep ? cepFormatted : "",
                         municipay: address.município ? address.município : "",
                         neighborhood: address.bairro ? address.bairro : "",
                         number: address.numero ? address.numero : "",

@@ -21,7 +21,7 @@ const Home = () => {
   const [filteredClients, setFilteredClients] = useState<Client[]>([])
   const [searchValue, setSearchValue] = useState('');
   const [noCustomersFound, setNoCustomersFound ] = useState(false)
-  
+
   useEffect(()=>{
     async function fetchData(){
       try{
@@ -33,21 +33,61 @@ const Home = () => {
     }
     fetchData()
   }, [])
-  
+
   useEffect(() => {
-    if(searchValue){
-      const filtered = clients.filter(client =>
-        client.name.toLowerCase().includes(searchValue.toLowerCase()) || client.cnpj.includes(searchValue)
-      );
-      setFilteredClients(filtered);
-      if(filtered.length > 0){
-        setNoCustomersFound(false)
-      }else{
-        setNoCustomersFound(true)
-      }
+    const formattedClients = clients.map((client) => {
+        const cnpj = client.cnpj;
+        
+        let formattedCnpj = cnpj.replace(/\D/g, '')
+
+        if (formattedCnpj.length > 2) {
+            formattedCnpj = formattedCnpj.replace(/^(\d{2})(\d)/, '$1.$2')
+        }
+        if (formattedCnpj.length > 5) {
+            formattedCnpj = formattedCnpj.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+        }
+        if (formattedCnpj.length > 8) {
+            formattedCnpj = formattedCnpj.replace(/^(\d{2})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3/$4')
+        }
+        if (formattedCnpj.length > 12) {
+            formattedCnpj = formattedCnpj.replace(/^(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d)/, '$1.$2.$3/$4-$5')
+        }
+        
+        return {
+            ...client,
+            cnpj: formattedCnpj
+        }
+    })
+    if (JSON.stringify(formattedClients) !== JSON.stringify(clients)) {
+      setClients(formattedClients)
     }
-  }, [clients, searchValue, noCustomersFound, filteredClients.length]);
+    }, [clients])
+
+    useEffect(() => {
+      if (searchValue) {
+          const formattedSearchValue = searchValue.replace(/[^\w\s]/g, '')
+        
+          const filtered = clients.filter(client => {
+              const formattedCnpj = client.cnpj.replace(/\D/g, '')
+              
+              return client.name.toLowerCase().includes(formattedSearchValue.toLowerCase()) || 
+              client.cnpj.includes(searchValue) || 
+              formattedCnpj.includes(formattedSearchValue)
+          });
   
+          setFilteredClients(filtered);
+          if(filtered.length > 0){
+            setNoCustomersFound(false)
+          }else{
+            setNoCustomersFound(true)
+          }
+          
+      } else {
+        setFilteredClients(clients); 
+        
+      }
+  }, [clients, searchValue, filteredClients.length, noCustomersFound])
+
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void =>{
     setSearchValue(e.target.value)
   }

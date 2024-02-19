@@ -4,71 +4,11 @@
     "cnpj": "00776574000156",
     "address": {
       "uf": "SP",
-      "cep": "06210108",
+      "cep": "06210-108",
       "municipay": "OSASCO",
       "neighborhood": "PRESIDENTE ALTINO",
       "number": "643",
       "complement": " GALPAO DE ESTOCAGEM DOCAS F03 A F18 L06 E L07"
-    }
-  },
-  {
-    "name": "Kabum",
-    "cnpj": "05570714000159",
-    "address": {
-      "uf": "SP",
-      "cep": "13480013",
-      "municipay": "LIMEIRA",
-      "neighborhood": "CENTRO",
-      "number": "1321",
-      "complement": "ANDAR 9 E 10"
-    }
-  },
-  {
-    "name": "Alpergatas",
-    "cnpj": "61079117000105",
-    "address": {
-      "uf": "SP",
-      "cep": "04794000",
-      "municipay": "SAO PAULO",
-      "neighborhood": "VILA GERTRUDES",
-      "number": "14261",
-      "complement": "CONJ 1001A - ALA A1"
-    }
-  },
-  {
-    "name": "Alpergatas",
-    "cnpj": "61079117000105",
-    "address": {
-      "uf": "SP",
-      "cep": "04794000",
-      "municipay": "SAO PAULO",
-      "neighborhood": "VILA GERTRUDES",
-      "number": "14261",
-      "complement": "CONJ 1001A - ALA A1"
-    }
-  },
-  {
-    "name": "Kabum",
-    "cnpj": "00776574000156",
-    "address": {
-      "uf": "SP",
-      "cep": "06210108",
-      "municipay": "OSASCO",
-      "neighborhood": "PRESIDENTE ALTINO",
-      "number": "643",
-      "complement": " GALPAO DE ESTOCAGEM DOCAS F03 A F18 L06 E L07"
-    }
-  },
-  {
-    "name": "Ambev",
-    "cnpj": "07526557000100",
-    "address": {
-      "uf": "SP",
-      "cep": "04530001",
-      "municipay": "SAO PAULO",
-      "neighborhood": "ITAIM BIBI",
-      "number": "1017",
-      "complement": "3 ANDAR EDIFICIO CORP. PARK"
     }
   },
   {
@@ -76,19 +16,7 @@
     "cnpj": "00776574000156",
     "address": {
       "uf": "SP",
-      "cep": "06210108",
-      "municipay": "OSASCO",
-      "neighborhood": "PRESIDENTE ALTINO",
-      "number": "643",
-      "complement": " GALPAO DE ESTOCAGEM DOCAS F03 A F18 L06 E L07"
-    }
-  },
-  {
-    "name": "da",
-    "cnpj": "00776574000156",
-    "address": {
-      "uf": "SP",
-      "cep": "06210108",
+      "cep": "06210-108",
       "municipay": "OSASCO",
       "neighborhood": "PRESIDENTE ALTINO",
       "number": "643",
