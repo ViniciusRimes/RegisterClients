@@ -91,9 +91,11 @@ const Home = () => {
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void =>{
     setSearchValue(e.target.value)
   }
-  
+
   return (
-    <Box maxWidth={'1200px'} sx={{backgroundColor: '#fff', margin: '3em auto', height: '100vh'}} color={'#000'} width={'100vw'} justifyContent={'start'} display={'flex'} alignItems={'center'} flexDirection={'column'}>
+    <Box maxWidth={'1200px'} color={'#000'} width={'100vw'} justifyContent={'start'} display={'flex'} alignItems={'center'} flexDirection={'column'} sx={{backgroundColor: '#fff', margin: '3em auto', height: '100vh', '@media (max-width: 600px)': {
+      margin: '2em 0em'}
+    }} >
       <Box display={'flex'} alignItems={"center"} justifyContent={'start'} sx={{width: 'calc(100% - 2em)'}}>
         <FormControl sx={{width: 'calc(100%)', margin: '0em'}}>
           <TextField onChange={handleSearchChange} value={searchValue} size="small" type="search" placeholder="Buscar cliente (por nome ou CNPJ)" sx={{marginRight: '1em', fontFamily: 'Poppins', '& input::placeholder': {
@@ -114,8 +116,44 @@ const Home = () => {
       </Box>
       
       <Box display={'flex'} flexDirection={'column'} justifyContent={'space-between'} alignItems={'center'} sx={{width: 'calc(100% - 2em)', margin: '1.5em 0.5em'}}>
+      <Box>
+      {clients.length > 0 && searchValue === '' ? (
+        clients.map((client)=>(
+          <Box display={'none'} sx={{width: 'calc(100vw - 2em)' ,borderBottom: '1px solid #c2c2c2', marginBottom: '1em', paddingBottom: '0.5em', '@media (max-width: 600px)':{
+            display: 'block'
+          }}}>
+            <Typography fontSize={'0.8em'}><span style={{fontWeight: 'bold'}}>Nome:</span> {client.name} </Typography>
+            <Typography fontSize={'0.8em'}><span style={{fontWeight: 'bold'}}>CNPJ:</span> {client.cnpj} </Typography>
+            <Typography fontSize={'0.8em'}><span style={{fontWeight: 'bold'}}>UF:</span> {client.address.uf} </Typography>
+            <Typography fontSize={'0.8em'}><span style={{fontWeight: 'bold'}}>CEP:</span> {client.address.cep} </Typography>
+            <Typography fontSize={'0.8em'}><span style={{fontWeight: 'bold'}}>MUNICÍPIO:</span> {client.address.municipay} </Typography>
+            <Typography fontSize={'0.8em'}><span style={{fontWeight: 'bold'}}>BAIRRO:</span> {client.address.neighborhood} </Typography>
+            <Typography fontSize={'0.8em'}><span style={{fontWeight: 'bold'}}>NÚMERO:</span> {client.address.number} </Typography>
+            <Typography fontSize={'0.8em'}><span style={{fontWeight: 'bold'}}>COMPLEMENTO:</span> {client.address.complement} </Typography>
+          </Box>
+        ))
+      ) : filteredClients.length > 0 ? (
+        filteredClients.map((filtered)=>(
+          <Box display={'none'} sx={{width: 'calc(100vw - 2em)' ,borderBottom: '1px solid #c2c2c2', marginBottom: '1em', paddingBottom: '0.5em', '@media (max-width: 600px)':{
+            display: 'block'
+          }}}>
+            <Typography fontSize={'0.8em'}><span style={{fontWeight: 'bold'}}>Nome:</span> {filtered.name} </Typography>
+            <Typography fontSize={'0.8em'}><span style={{fontWeight: 'bold'}}>CNPJ:</span> {filtered.cnpj} </Typography>
+            <Typography fontSize={'0.8em'}><span style={{fontWeight: 'bold'}}>UF:</span> {filtered.address.uf} </Typography>
+            <Typography fontSize={'0.8em'}><span style={{fontWeight: 'bold'}}>CEP:</span> {filtered.address.cep} </Typography>
+            <Typography fontSize={'0.8em'}><span style={{fontWeight: 'bold'}}>MUNICÍPIO:</span> {filtered.address.municipay} </Typography>
+            <Typography fontSize={'0.8em'}><span style={{fontWeight: 'bold'}}>BAIRRO:</span> {filtered.address.neighborhood} </Typography>
+            <Typography fontSize={'0.8em'}><span style={{fontWeight: 'bold'}}>NÚMERO:</span> {filtered.address.number} </Typography>
+            <Typography fontSize={'0.8em'}><span style={{fontWeight: 'bold'}}>COMPLEMENTO:</span> {filtered.address.complement} </Typography>
+          </Box>
+        ))
+      ): <Typography display={'none'} sx={{'@media (max-width: 600px)':{
+        display: 'block'}}}>Nenhum cliente encontrado com estes parâmetros. Clique acima para registrar um novo cliente!</Typography>}
+      </Box>
       {clients.length > 0 && !noCustomersFound && (
-      <Box display={'flex'} width={'100%'} justifyContent={'space-between'} paddingBottom={'1em'} sx={{borderBottom: '1px solid #6DBDE6'}}>
+      <Box display={'flex'} width={'100%'} justifyContent={'space-between'} paddingBottom={'1em'} sx={{borderBottom: '1px solid #6DBDE6', '@media (max-width: 600px)': {
+        display: 'none'
+      }}}>
         <TypographyPersonalized fontWeight="bold" value='Nome'/>
         <TypographyPersonalized fontWeight="bold" value='CNPJ'/>
         <TypographyPersonalized fontWeight="bold" value='UF'/>
@@ -130,7 +168,9 @@ const Home = () => {
           <Typography>Nenhum cliente cadastrado. Clique acima para registrar um novo cliente!</Typography>
         ) : clients.length > 0 && searchValue === '' ? (
         clients.map((client)=>(
-          <Box minHeight={'50px'} padding={'0.2em'} display={'flex'} width={'100%'} justifyContent={'space-between'} alignItems={'center'} marginTop={'1em'} sx={{borderBottom: '1px solid #c1c1c1'}}>
+          <Box minHeight={'50px'} padding={'0.2em'} display={'flex'} width={'100%'} justifyContent={'space-between'} alignItems={'center'} marginTop={'1em'} sx={{borderBottom: '1px solid #c1c1c1', '@media (max-width: 600px)': {
+            display: 'none'
+          }}}>
               <TypographyPersonalized fontWeight="normal" value={client.name}/>
               <TypographyPersonalized fontWeight="normal" value={client.cnpj}/>
               <TypographyPersonalized fontWeight="normal" value={client.address.uf}/>
@@ -142,7 +182,8 @@ const Home = () => {
           </Box>
         ))) : filteredClients.length > 0 ? (
         filteredClients.map((filtered)=>(
-          <Box minHeight={'50px'} padding={'0.2em'} display={'flex'} width={'100%'} justifyContent={'space-between'} alignItems={'center'} marginTop={'1em'} sx={{borderBottom: '1px solid #c1c1c1'}}>
+          <Box minHeight={'50px'} padding={'0.2em'} display={'flex'} width={'100%'} justifyContent={'space-between'} alignItems={'center'} marginTop={'1em'} sx={{borderBottom: '1px solid #c1c1c1',  '@media (max-width: 600px)': {
+            display: 'none'}}}>
               <TypographyPersonalized fontWeight="normal" value={filtered.name}/>
               <TypographyPersonalized fontWeight="normal" value={filtered.cnpj}/>
               <TypographyPersonalized fontWeight="normal" value={filtered.address.uf}/>
@@ -154,7 +195,8 @@ const Home = () => {
           </Box>
         ))
         ) :
-        (<Typography>Nenhum cliente encontrado com estes parâmetros. Clique acima para registrar um novo cliente!</Typography>)}
+        (<Typography sx={{'@media (max-width: 600px)': {
+          display: 'none'}}}>Nenhum cliente encontrado com estes parâmetros. Clique acima para registrar um novo cliente!</Typography>)}
       </Box>
     </Box>
   )

@@ -22,5 +22,29 @@
       "number": "643",
       "complement": " GALPAO DE ESTOCAGEM DOCAS F03 A F18 L06 E L07"
     }
+  },
+  {
+    "name": "Americanas",
+    "cnpj": "00776574000156",
+    "address": {
+      "uf": "SP",
+      "cep": "06210-108",
+      "municipay": "OSASCO",
+      "neighborhood": "PRESIDENTE ALTINO",
+      "number": "643",
+      "complement": " GALPAO DE ESTOCAGEM DOCAS F03 A F18 L06 E L07"
+    }
+  },
+  {
+    "name": "Kabum",
+    "cnpj": "00776574000156",
+    "address": {
+      "uf": "SP",
+      "cep": "06210-108",
+      "municipay": "OSASCO",
+      "neighborhood": "PRESIDENTE ALTINO",
+      "number": "643",
+      "complement": " GALPAO DE ESTOCAGEM DOCAS F03 A F18 L06 E L07"
+    }
   }
 ]
