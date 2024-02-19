@@ -10,7 +10,7 @@ class ClientController{
                 return res.status(400).json({message: errors})
             }
             const {name, cnpj, address} = req.body
-            const {uf, cep, municipio, bairro, numero, complemento} = address
+            const {uf, cep, municipay, neighborhood, number, complement} = address
             
             if (!/^[a-zA-ZÀ-ÖØ-öø-ÿ\s]+$/.test(name)) {
                 return res.status(400).json({ message: "O nome deve conter apenas letras e espaços" });
@@ -22,16 +22,16 @@ class ClientController{
                 return res.status(400).json({ message: "CNPJ deve conter apenas números" });
             }
             
-            const newClient: {name: string, cnpj: string, address: {uf: string, cep: string, bairro:string,municipio: string, numero: string, complemento: string}} = {
+            const newClient: {name: string, cnpj: string, address: {uf: string, cep: string, neighborhood:string,municipay: string, number: string, complement: string}} = {
                 name,
                 cnpj,
                 address: {
                     uf,
                     cep,
-                    municipio,
-                    bairro,
-                    numero,
-                    complemento
+                    municipay,
+                    neighborhood,
+                    number,
+                    complement: complement
                 }
 
             }
@@ -55,19 +55,26 @@ class ClientController{
     static async getAddressByCnpj(req: Request, res: Response){
         try{
             const {cnpj} = req.params
-            const addressByCnpj: {uf: string, cep: string, bairro:string,municipio: string, numero: string, complemento: string} | undefined = await fetchAddress(cnpj)
+            const addressByCnpj: {uf: string, cep: string, neighborhood:string,municipay: string, number: string, complement: string} | undefined = await fetchAddress(cnpj)
             if(addressByCnpj === undefined){
                 res.status(400).json({message: `Endereço não encontrado para o CNPJ informado. Verifique o CNPJ ou cadastre manualmente!`})
                 return
             }
-            res.status(200).send({address: addressByCnpj})
+            res.status(200).send({address: {
+                uf: addressByCnpj.uf,
+                cep: addressByCnpj.cep,
+                município: addressByCnpj.municipay,
+                bairro: addressByCnpj.neighborhood,
+                numero: addressByCnpj.number,
+                complemento: addressByCnpj.complement
+            }})
         }   
         catch(error){
             res.status(500).json({message: "Ocorreu um erro ao processar a solicitação. Erro: " + error})
         }
     }
 }
-async function fetchAddress(cnpj: string): Promise< {uf: string, cep: string, bairro:string,municipio: string, numero: string, complemento: string} | undefined >{
+async function fetchAddress(cnpj: string): Promise< {uf: string, cep: string, neighborhood:string,municipay: string, number: string, complement: string} | undefined >{
     try{
         const response = await fetch(`https://brasilapi.com.br/api/cnpj/v1/${cnpj}`, {
             method: 'GET',
@@ -82,13 +89,13 @@ async function fetchAddress(cnpj: string): Promise< {uf: string, cep: string, ba
         }
         const data = await response.json()
         
-        const address: {uf: string, cep: string, bairro: string, municipio: string, numero: string, complemento: string} = {
+        const address: {uf: string, cep: string, neighborhood: string, municipay: string, number: string, complement: string} = {
             uf: data.uf,
             cep: data.cep,
-            municipio: data.municipio ? data.municipio : "Não fornecido",
-            bairro: data.bairro ? data.bairro : "Não fornecido",
-            numero: data.numero ? data.numero : "Não fornecido", 
-            complemento: data.complemento ? data.complemento : "Não fornecido"
+            municipay: data.municipio ? data.municipio : "Não fornecido",
+            neighborhood: data.bairro ? data.bairro : "Não fornecido",
+            number: data.numero ? data.numero : "Não fornecido", 
+            complement: data.complemento ? data.complemento : "Não fornecido"
         }
         return address
     }catch(error){
