@@ -172,7 +172,10 @@ const RegisterClient = () => {
     }
 
     return (
-    <Box maxWidth={'900px'} sx={{backgroundColor: '#fff', margin: '3em auto', height: '100vh'}} color={'#000'} width={'100vw'} justifyContent={'center'} display={'flex'} alignItems={'center'} flexDirection={'column'}>
+    <Box maxWidth={'900px'} sx={{backgroundColor: '#fff', margin: '3em auto', height: '100vh', '@media (max-width: 600px)':{
+        width: 'calc(100vw - 1em)',
+        marginTop: '1em'
+    }}} color={'#000'} width={'100vw'} justifyContent={'center'} display={'flex'} alignItems={'center'} flexDirection={'column'}>
         <Typography fontFamily={'Poppins'} variant='h1' fontWeight={'bold'} marginBottom={'1em'} fontSize={'1.5em'}>Registro de Clientes</Typography>
         <Typography margin={'1.5em 0.5em 0.5em 0.5em'} fontFamily={'Poppins'} variant='body1'>Digite os dados abaixo para cadastrar um novo cliente no sistema</Typography>
         <Typography margin={'0.5em'}  fontFamily={'Poppins'} variant='body1'>Após preencher os campos <span style={{fontWeight: 'bold'}}>Nome</span> e <span style={{fontWeight: 'bold'}}>CNPJ</span> abaixo, será buscado os dados de endereço do cliente</Typography>

@@ -21,17 +21,31 @@ class ClientController{
             if (!/^\d+$/.test(cnpj)) {
                 return res.status(400).json({ message: "CNPJ deve conter apenas números" });
             }
+            let formattedCnpj: string = cnpj
+        
+            if(formattedCnpj.length > 2){
+                formattedCnpj = formattedCnpj.replace(/^(\d{2})(\d)/, '$1.$2')
+            }
+            if(formattedCnpj.length > 5){
+                formattedCnpj = formattedCnpj.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+            }
+            if(formattedCnpj.length > 8){
+            formattedCnpj = formattedCnpj.replace(/^(\d{2})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3/$4');
+            }
+            if(formattedCnpj.length > 12){
+            formattedCnpj = formattedCnpj.replace(/^(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d)/, '$1.$2.$3/$4-$5');
+            }
             
             const newClient: {name: string, cnpj: string, address: {uf: string, cep: string, neighborhood:string,municipay: string, number: string, complement: string}} = {
                 name,
-                cnpj,
+                cnpj: formattedCnpj,
                 address: {
                     uf,
                     cep,
                     municipay,
                     neighborhood,
                     number,
-                    complement: complement
+                    complement
                 }
 
             }

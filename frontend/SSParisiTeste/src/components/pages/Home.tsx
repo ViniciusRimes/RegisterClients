@@ -34,41 +34,12 @@ const Home = () => {
     fetchData()
   }, [])
 
-  useEffect(() => {
-    const formattedClients = clients.map((client) => {
-        const cnpj = client.cnpj;
-        
-        let formattedCnpj = cnpj.replace(/\D/g, '')
-
-        if (formattedCnpj.length > 2) {
-            formattedCnpj = formattedCnpj.replace(/^(\d{2})(\d)/, '$1.$2')
-        }
-        if (formattedCnpj.length > 5) {
-            formattedCnpj = formattedCnpj.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
-        }
-        if (formattedCnpj.length > 8) {
-            formattedCnpj = formattedCnpj.replace(/^(\d{2})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3/$4')
-        }
-        if (formattedCnpj.length > 12) {
-            formattedCnpj = formattedCnpj.replace(/^(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d)/, '$1.$2.$3/$4-$5')
-        }
-        
-        return {
-            ...client,
-            cnpj: formattedCnpj
-        }
-    })
-    if (JSON.stringify(formattedClients) !== JSON.stringify(clients)) {
-      setClients(formattedClients)
-    }
-    }, [clients])
-
     useEffect(() => {
       if (searchValue) {
-          const formattedSearchValue = searchValue.replace(/[^\w\s]/g, '')
+          const formattedSearchValue: string = searchValue.replace(/[^\w\s]/g, '')
         
-          const filtered = clients.filter(client => {
-              const formattedCnpj = client.cnpj.replace(/\D/g, '')
+          const filtered: Client[] = clients.filter(client => {
+              const formattedCnpj: string= client.cnpj.replace(/\D/g, '')
               
               return client.name.toLowerCase().includes(formattedSearchValue.toLowerCase()) || 
               client.cnpj.includes(searchValue) || 
@@ -102,7 +73,14 @@ const Home = () => {
               fontFamily: 'Poppins',
               opacity: 0.7,
               fontSize: '1em'
-          }}}/>
+          }, 
+          '@media (max-width: 600px)': {
+            '& input': {
+              fontSize: '0.9em',
+              paddingTop: '1em'
+            }
+          }
+          }}/>
         </FormControl>
       </Box>
       <Box margin={'2em 1em 1em 1em'}>
@@ -117,7 +95,7 @@ const Home = () => {
       
       <Box display={'flex'} flexDirection={'column'} justifyContent={'space-between'} alignItems={'center'} sx={{width: 'calc(100% - 2em)', margin: '1.5em 0.5em'}}>
       <Box>
-      {clients.length > 0 && searchValue === '' ? (
+      {clients.length > 0 && searchValue === '' ? ( //VERSÃo MOBILE PARA A TABELA DE MOSTRAGEM DE CLIENTES
         clients.map((client)=>(
           <Box display={'none'} sx={{width: 'calc(100vw - 2em)' ,borderBottom: '1px solid #c2c2c2', marginBottom: '1em', paddingBottom: '0.5em', '@media (max-width: 600px)':{
             display: 'block'
@@ -150,7 +128,7 @@ const Home = () => {
       ): <Typography display={'none'} sx={{'@media (max-width: 600px)':{
         display: 'block'}}}>Nenhum cliente encontrado com estes parâmetros. Clique acima para registrar um novo cliente!</Typography>}
       </Box>
-      {clients.length > 0 && !noCustomersFound && (
+      {clients.length > 0 && !noCustomersFound && ( //VERSÃo DESKTOP E OUTROS DISPOSIVOS (EXCETO MOBILE) PARA A TABELA DE MOSTRAGEM DE CLIENTES
       <Box display={'flex'} width={'100%'} justifyContent={'space-between'} paddingBottom={'1em'} sx={{borderBottom: '1px solid #6DBDE6', '@media (max-width: 600px)': {
         display: 'none'
       }}}>

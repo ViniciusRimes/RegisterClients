@@ -3,7 +3,14 @@ import fs from 'fs'
 interface Client{
     name: string,
     cnpj: string,
-    address: {uf: string, cep: string, neighborhood :string,municipay: string, number: string, complement: string}
+    address: {
+        uf: string, 
+        cep: string, 
+        neighborhood :string,
+        municipay: string, 
+        number: string, 
+        complement: string
+    }
 }
 class ClientModel{
     private clients: Client[]
@@ -23,7 +30,7 @@ class ClientModel{
     }
     private saveClient(): void{
         try{
-            fs.writeFileSync(this.filename, JSON.stringify(this.clients, null, 2), 'utf8' )
+            fs.writeFileSync(this.filename, JSON.stringify(this.clients, null, 2), 'utf8')
         }catch(error){
             console.log("Ocorreu um erro ao salvar cliente. Erro: " + error)
         }

@@ -7,7 +7,9 @@ router.post('/register', [
     body('name').notEmpty().withMessage("O campo NOME não pode ser nulo!"),
     body('cnpj').notEmpty().withMessage("O campo CNPJ não pode ser nulo!")
 ], ClientController.registerClient)
+
 router.get('/', ClientController.getClients)
+
 router.get('/address/:cnpj', ClientController.getAddressByCnpj)
 
 export default router

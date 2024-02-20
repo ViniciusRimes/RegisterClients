@@ -67,11 +67,10 @@ describe('ClientController', () => {
         address: {
           uf: 'RJ',
           cep: '28637000',
-          bairro: 'Dona Mariana',
-          municipio: 'Sumidouro',
-          logradouro: 'Dona Mariana',
-          numero: 1,
-          complemento: 'Casa azul'
+          neighborhood: 'Dona Mariana',
+          municipay: 'Sumidouro',
+          number: '1',
+          complement: 'Casa azul'
         }
       }]
       jest.spyOn(ClientModel.prototype, 'getAllClients').mockReturnValue(mockClientes)
