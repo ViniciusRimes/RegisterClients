@@ -175,11 +175,13 @@ const RegisterClient = () => {
     <Box maxWidth={'900px'} sx={{backgroundColor: '#fff', margin: '3em auto', height: '100vh', '@media (max-width: 600px)':{
         width: 'calc(100vw - 1em)',
         marginTop: '1em'
+    }, '@media (min-width: 600px) and (max-width: 992px)': {
+        width: '700px'
     }}} color={'#000'} width={'100vw'} justifyContent={'center'} display={'flex'} alignItems={'center'} flexDirection={'column'}>
         <Typography fontFamily={'Poppins'} variant='h1' fontWeight={'bold'} marginBottom={'1em'} fontSize={'1.5em'}>Registro de Clientes</Typography>
         <Typography margin={'1.5em 0.5em 0.5em 0.5em'} fontFamily={'Poppins'} variant='body1'>Digite os dados abaixo para cadastrar um novo cliente no sistema</Typography>
         <Typography margin={'0.5em'}  fontFamily={'Poppins'} variant='body1'>Após preencher os campos <span style={{fontWeight: 'bold'}}>Nome</span> e <span style={{fontWeight: 'bold'}}>CNPJ</span> abaixo, será buscado os dados de endereço do cliente</Typography>
-        <Typography margin={'1.5em 0.5em 0.5em 0.5em'} fontFamily={'Poppins'} variant='body1'>Ou clique <Link style={{textDecoration: 'none', backgroundColor: '#6DBDE6', padding: '0.2em', color: '#000'}} to={'/'}>aqui</Link> para consultar todos os clientes cadastrados</Typography>
+        <Typography margin={'1.5em 0.5em 0.5em 0.5em'} fontFamily={'Poppins'} variant='body1'>Ou clique <Link style={{textDecoration: 'none', backgroundColor: '#6DBDE6', padding: '0.2em', color: '#000'}} to={'/clients'}>aqui</Link> para consultar todos os clientes cadastrados</Typography>
         <form style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', margin: '0em auto', marginBottom: '1em', width: '100%'}} onSubmit={handleSubmit}> 
         <Box sx={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', width: '100%', marginTop: '3em'}}>
             <InputPersonzalized htmlFor='name' text='Nome *' id='name' handleOnChange={handleNameChange} required={true} placeholder='Digite o nome do cliente' value={formData.name} maxLength={undefined}/>

@@ -65,7 +65,11 @@ const Home = () => {
 
   return (
     <Box maxWidth={'1200px'} color={'#000'} width={'100vw'} justifyContent={'start'} display={'flex'} alignItems={'center'} flexDirection={'column'} sx={{backgroundColor: '#fff', margin: '3em auto', height: '100vh', '@media (max-width: 600px)': {
-      margin: '2em 0em'}
+      margin: '2em 0em'}, 
+      '@media (min-width: 600px) and (max-width: 992px)': {
+        maxWidth: '800px', 
+        fontSize: '0.95em'
+    }
     }} >
       <Box display={'flex'} alignItems={"center"} justifyContent={'start'} sx={{width: 'calc(100% - 2em)'}}>
         <FormControl sx={{width: 'calc(100%)', margin: '0em'}}>
@@ -89,7 +93,7 @@ const Home = () => {
                 backgroundColor: '#6DBDE6',
                 transition: 'all ease 0.2s',
             }}}>
-              <Link style={{textDecoration: 'none', color: "#000"}} to={'/client/register'}>Registrar novo cliente</Link>
+              <Link style={{textDecoration: 'none', color: "#000"}} to={'/'}>Registrar novo cliente</Link>
         </Button>
       </Box>
       
@@ -125,7 +129,7 @@ const Home = () => {
             <Typography fontSize={'0.8em'}><span style={{fontWeight: 'bold'}}>COMPLEMENTO:</span> {filtered.address.complement} </Typography>
           </Box>
         ))
-      ): <Typography display={'none'} sx={{'@media (max-width: 600px)':{
+      ): clients.length > 0 && <Typography display={'none'} sx={{'@media (max-width: 600px)':{
         display: 'block'}}}>Nenhum cliente encontrado com estes parâmetros. Clique acima para registrar um novo cliente!</Typography>}
       </Box>
       {clients.length > 0 && !noCustomersFound && ( //VERSÃo DESKTOP E OUTROS DISPOSIVOS (EXCETO MOBILE) PARA A TABELA DE MOSTRAGEM DE CLIENTES
