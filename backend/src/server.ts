@@ -1,3 +1,8 @@
 import app from "./app";
 
-app.listen(5000)
+try{
+    app.listen(process.env.PORT)
+}catch(error){
+    console.log("Erro ao inicializar servidor. Erro: " + error)
+};
+
