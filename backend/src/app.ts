@@ -11,6 +11,7 @@ class App{
         this.express = express()
         this.middlewares()
         this.routes()
+        this.connect()
     }
     private middlewares(): void{
         this.express.use(express.json())
@@ -24,6 +25,14 @@ class App{
     }
     private routes() : void{
         this.express.use('/clients', ClientRoutes)
+    }
+    private connect(): void{
+        try{
+            this.express.listen(process.env.PORT)
+        }catch(error){
+            console.log("Erro ao inicializar servidor. Erro: " + error)
+        };
+        
     }
 }
 
