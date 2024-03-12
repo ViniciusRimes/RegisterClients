@@ -7,7 +7,7 @@
     "node": "14.x"
   },
   "scripts": {
-    "start": "set NODE_ENV=dev && nodemon ./src/server.ts --ignore tests",
+    "start": "set NODE_ENV=dev && nodemon ./src/app.ts --ignore tests",
     "test": "set NODE_ENV=test && jest --detectOpenHandles --forceExit"
   },
   "keywords": [],
