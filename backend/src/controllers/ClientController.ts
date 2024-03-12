@@ -51,7 +51,7 @@ class ClientController{
             }
             const clientModel: ClientModel = new ClientModel("./data/clients.json")
             clientModel.createClient(newClient)
-            res.status(201).json({message: "Cliente cadastrado!", client: newClient})
+            res.status(201).json({message: "Cliente cadastrado com sucesso!", client: newClient})
         }catch(error){
             res.status(500).json({message: "Ocorreu um erro ao processar a solicitação. Erro: " + error})
         }
