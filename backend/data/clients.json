@@ -1,0 +1,14 @@
+[
+  {
+    "name": "fafa",
+    "cnpj": "33.014.556/0001-96",
+    "address": {
+      "uf": "RJ",
+      "cep": "20081-902",
+      "municipay": "RIO DE JANEIRO",
+      "neighborhood": "SAUDE",
+      "number": "102",
+      "complement": "Não fornecido"
+    }
+  }
+]
