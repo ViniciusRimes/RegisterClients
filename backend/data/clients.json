@@ -1,14 +1,14 @@
 [
   {
-    "name": "fafa",
-    "cnpj": "33.014.556/0001-96",
+    "name": "Americanas",
+    "cnpj": "00.776.574/0001-56",
     "address": {
-      "uf": "RJ",
-      "cep": "20081-902",
-      "municipay": "RIO DE JANEIRO",
-      "neighborhood": "SAUDE",
-      "number": "102",
-      "complement": "Não fornecido"
+      "uf": "SP",
+      "cep": "06210-108",
+      "municipay": "OSASCO",
+      "neighborhood": "PRESIDENTE ALTINO",
+      "number": "643",
+      "complement": " GALPAO DE ESTOCAGEM DOCAS F03 A F18 L06 E L07"
     }
   }
 ]
